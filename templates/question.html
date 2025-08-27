@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Dashboard</title>
+    <style>
+      /* --- Global Styles --- */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
+      :root {
+        --light-blue: #e3f2fd;
+        --dusky-blue: #2a3d54;
+        --accent-green: #4caf50;
+        --accent-orange: #ff9800;
+        --primary-text: #2c3e50;
+        --secondary-text: #7f8c8d;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light-blue);
+        color: var(--primary-text);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* --- Question Container --- */
+      .question-container {
+        position: relative;
+        z-index: 1;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        width: 100%;
+        text-align: left;
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      /* --- Question Header --- */
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .question-header h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+        color: var(--dusky-blue);
+      }
+
+      .marks {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--secondary-text);
+      }
+
+      /* --- Question Body --- */
+      .question-text {
+        font-size: 1.25rem;
+        font-weight: 600;
+        line-height: 1.5;
+        margin-bottom: 30px;
+        color: var(--primary-text);
+      }
+
+      /* --- Options --- */
+      .options {
+        display: grid;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .options-label {
+        display: block;
+        padding: 15px 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .options-label:hover {
+        border-color: var(--accent-green);
+        background-color: #e8f5e9;
+      }
+
+      .options input[type="radio"],
+      .options input[type="checkbox"] {
+        display: none;
+      }
+
+      .options input[type="radio"]:checked + .options-label,
+      .options input[type="checkbox"]:checked + .options-label {
+        background-color: var(--accent-green);
+        border-color: var(--accent-green);
+        color: #ffffff;
+        box-shadow: 0 5px 10px rgba(76, 175, 80, 0.2);
+        transform: translateY(-3px);
+      }
+
+      /* --- Text Answer --- */
+      .text-answer {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        color: var(--primary-text);
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .text-answer:focus {
+        border-color: var(--accent-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+      }
+
+      .text-answer::placeholder {
+        color: var(--secondary-text);
+      }
+
+      /* --- Button --- */
+      .save-next-btn {
+        display: inline-block;
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 15px 50px;
+        border: none;
+        border-radius: 50px;
+        background-color: var(--dusky-blue);
+        color: #ffffff;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease,
+          box-shadow 0.3s ease;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .save-next-btn:hover {
+        transform: translateY(-3px);
+        background-color: #1a2736;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* --- Animations --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* --- Media Queries --- */
+      @media (max-width: 600px) {
+        .question-container {
+          padding: 30px;
+          margin: 20px;
+        }
+        .question-text {
+          font-size: 1rem;
+        }
+        .options-label {
+          padding: 12px 15px;
+        }
+        .save-next-btn {
+          padding: 12px 30px;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="question-container">
+      <!-- Header -->
+      <div class="question-header">
+        <h2>Question {{ id }}</h2>
+        <span class="marks">Marks: {{ mark }}</span>
+      </div>
+
+      <!-- Question -->
+      <div class="question-text">{{ question }}</div>
+
+      <form method="POST">
+        <!-- Options Example -->
+        <div class="options">
+          <input type="radio" id="option1" name="op" value="{{ option1 }}" />
+          <label for="option1" class="options-label">{{ option1 }}</label>
+
+          <input type="radio" id="option2" name="op" value="{{ option2 }}" />
+          <label for="option2" class="options-label">{{ option2 }}</label>
+
+          <input type="radio" id="option3" name="op" value="{{ option3 }}" />
+          <label for="option3" class="options-label">{{ option3 }}</label>
+
+          <input type="radio" id="option4" name="op" value="{{ option4 }}" />
+          <label for="option4" class="options-label">{{ option4 }}</label>
+        </div>
+
+        <!-- OR Text Field Example -->
+        <!-- <input type="text" class="text-answer" placeholder="Type your answer here..." /> -->
+
+        <!-- Save & Next -->
+        <button class="save-next-btn">Save & Next</button>
+      </form>
+    </div>
+  </body>
+</html>

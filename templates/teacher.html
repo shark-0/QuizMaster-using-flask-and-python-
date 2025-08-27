@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Dashboard - Quiz App</title>
+    <style>
+      /* --- Global Styles --- */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
+      :root {
+        --light-blue: #e3f2fd;
+        --dusky-blue: #2a3d54;
+        --accent-green: #4caf50;
+        --accent-orange: #ff9800;
+        --primary-text: #2c3e50;
+        --secondary-text: #7f8c8d;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light-blue);
+        color: var(--primary-text);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* --- Navigation Bar --- */
+      .navbar {
+        background-color: #ffffff;
+        padding: 15px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dusky-blue);
+      }
+
+      .navbar .nav-links a {
+        color: var(--secondary-text);
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .navbar .nav-links a:hover {
+        color: var(--accent-green);
+      }
+
+      .navbar .nav-links .logout-btn {
+        background-color: var(--accent-green);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+      }
+
+      .navbar .nav-links .logout-btn:hover {
+        background-color: #388e3c;
+      }
+
+      /* --- Main Dashboard Container --- */
+      .dashboard-container {
+        flex: 1;
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+      }
+
+      /* --- Card Styles --- */
+      .card {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--dusky-blue);
+        margin-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
+      }
+
+      /* --- Create Quiz Form --- */
+      .create-quiz-form .input-group {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .create-quiz-form label {
+        display: block;
+        text-align: left;
+        font-weight: 600;
+        color: var(--primary-text);
+        margin-bottom: 8px;
+      }
+
+      .create-quiz-form input,
+      .create-quiz-form textarea,
+      .create-quiz-form select {
+        width: 90%;
+        padding: 15px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        color: var(--primary-text);
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .create-quiz-form input:focus,
+      .create-quiz-form textarea:focus,
+      .create-quiz-form select:focus {
+        border-color: var(--accent-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+      }
+
+      .create-quiz-btn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 50px;
+        background-color: var(--accent-green);
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+
+      .create-quiz-btn:hover {
+        transform: translateY(-3px);
+        background-color: #388e3c;
+      }
+
+      /* --- Profile Section --- */
+      .profile-section p {
+        font-size: 1rem;
+        color: var(--secondary-text);
+        margin-bottom: 10px;
+      }
+
+      .profile-section p strong {
+        color: var(--primary-text);
+      }
+
+      .update-profile-btn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: 2px solid var(--dusky-blue);
+        border-radius: 10px;
+        background-color: transparent;
+        color: var(--dusky-blue);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .update-profile-btn:hover {
+        background-color: var(--dusky-blue);
+        color: #ffffff;
+      }
+
+      /* --- Animations --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* --- Media Queries --- */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 15px 20px;
+        }
+        .dashboard-container {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top menu bar -->
+    <div class="navbar">
+      <div class="logo">QuizMaster</div>
+      <div class="nav-links">
+        <a href="#">Dashboard</a>
+        <a href="#">Quizzes</a>
+        <a href="#">Results</a>
+        <a href="#">Profile</a>
+        <a href="/logout" class="logout-btn">Logout</a>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Container -->
+    <div class="dashboard-container">
+      <!-- Main Content Area -->
+      <div class="main-content-area">
+        <div class="card create-quiz-section">
+          <h3>Create New Quiz</h3>
+          <form method="post" class="create-quiz-form">
+            <div class="input-group">
+              <label for="quiz_code">Unique Quiz Code</label>
+              <input
+                type="text"
+                id="quiz_code"
+                name="quiz_code"
+                placeholder="Enter unique quiz code..."
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="quiz_name">Quiz Name</label>
+              <input
+                type="text"
+                id="quiz_name"
+                name="quiz_name"
+                placeholder="Enter name of quiz..."
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="quiz_discription">Quiz Description</label>
+              <textarea
+                id="quiz_discription"
+                name="quiz_discription"
+                rows="3"
+                placeholder="Enter description of quiz..."
+                required
+              ></textarea>
+            </div>
+            <div class="input-group">
+              <label for="max_questions">Maximum Questions</label>
+              <input
+                type="number"
+                id="max_questions"
+                name="max_questions"
+                placeholder="Enter maximum number of questions..."
+                min="1"
+                required
+              />
+            </div>
+            <button type="submit" class="create-quiz-btn">Create Quiz</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="card profile-section">
+          <h3>Profile</h3>
+          <p><strong>Name:</strong> {{ teacher_name }}</p>
+          <p><strong>Email:</strong> {{ teacher_email }}</p>
+          <button class="update-profile-btn">Update Profile</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

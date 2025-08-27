@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App Welcome</title>
+    <style>
+      /* --- Global Styles --- */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+      :root {
+        --light-blue: #e3f2fd;
+        --dusky-blue: #2a3d54;
+        --accent-green: #4caf50;
+        --accent-orange: #ff9800;
+        --primary-text: #2c3e50;
+        --secondary-text: #7f8c8d;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light-blue);
+        color: var(--primary-text);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* --- Navigation --- */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 20px 50px;
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        animation: slideInDown 0.6s ease-out;
+      }
+
+      .navbar .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dusky-blue);
+      }
+
+      .navbar .nav-links a {
+        color: var(--secondary-text);
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .navbar .nav-links a:hover {
+        color: var(--accent-green);
+      }
+
+      .navbar .nav-links .signup-btn {
+        background-color: var(--accent-green);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+      }
+
+      .navbar .nav-links .signup-btn:hover {
+        background-color: #388e3c;
+      }
+
+      /* --- Main Content --- */
+      .main-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 50px;
+        margin-top: 80px;
+      }
+
+      .text-section {
+        flex: 1;
+        text-align: left;
+        padding-right: 50px;
+        animation: fadeInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .text-section h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 20px;
+        color: var(--dusky-blue);
+      }
+
+      .text-section p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: var(--secondary-text);
+        margin-bottom: 40px;
+      }
+
+      .create-quiz-btn {
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 50px;
+        background-color: var(--accent-green);
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .create-quiz-btn:hover {
+        transform: translateY(-5px);
+        background-color: #388e3c;
+      }
+
+      .image-section {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .quiz-mockup {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        position: relative;
+        animation: zoomIn 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+
+      .quiz-mockup .desktop-frame {
+        width: 100%;
+        height: auto;
+        display: block;
+        position: relative;
+        z-index: 2;
+        transform: rotate(-5deg);
+      }
+
+      .quiz-mockup .mobile-frame {
+        position: absolute;
+        top: 50%;
+        left: 60%;
+        width: 40%;
+        height: auto;
+        transform: translate(-50%, -50%) rotate(10deg);
+        z-index: 3;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      .quiz-mockup .shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0;
+        animation: fadeIn 1s ease-out 0.5s forwards;
+      }
+
+      .quiz-mockup .shape-1 {
+        position: absolute;
+        bottom: 10%;
+        left: 0;
+        width: 120px;
+        height: 120px;
+        background-color: var(--accent-green);
+        border-radius: 50%;
+        filter: blur(40px);
+        animation: moveUp 3s ease-in-out infinite alternate;
+      }
+
+      .quiz-mockup .shape-2 {
+        position: absolute;
+        top: 10%;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background-color: var(--accent-orange);
+        border-radius: 50%;
+        filter: blur(40px);
+        animation: moveDown 3s ease-in-out infinite alternate;
+      }
+
+      /* --- Animations --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideInDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInRight {
+        from {
+          transform: translateX(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translate(-50%, -50%) rotate(10deg) translateY(0);
+        }
+        50% {
+          transform: translate(-50%, -50%) rotate(10deg) translateY(-20px);
+        }
+        100% {
+          transform: translate(-50%, -50%) rotate(10deg) translateY(0);
+        }
+      }
+
+      @keyframes moveUp {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes moveDown {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(20px);
+        }
+      }
+
+      /* --- Media Queries --- */
+      @media (max-width: 992px) {
+        .main-content {
+          flex-direction: column;
+          text-align: center;
+          padding: 0 20px;
+        }
+
+        .text-section {
+          padding-right: 0;
+          margin-bottom: 40px;
+        }
+
+        .text-section h1 {
+          font-size: 3rem;
+        }
+
+        .image-section {
+          max-width: 100%;
+        }
+
+        .quiz-mockup .mobile-frame {
+          left: 70%;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .navbar {
+          padding: 15px 20px;
+        }
+
+        .navbar .nav-links a {
+          margin-left: 15px;
+        }
+
+        .text-section h1 {
+          font-size: 2.5rem;
+        }
+
+        .text-section p {
+          font-size: 1rem;
+        }
+
+        .create-quiz-btn {
+          padding: 12px 30px;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">QuizMaster</div>
+      <div class="nav-links">
+        <a href="{{ url_for('login') }}">Log in</a>
+        <a href="{{ url_for('register_page') }}" class="signup-btn">Sign up</a>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="text-section">
+        <h1>Quiz Maker: Create a quiz to challenge your audience</h1>
+        <p>
+          Make fun interactive quizzes to test your colleagues' knowledge, run a
+          quiz night with friends, or help students study.
+        </p>
+        <a href="{{ url_for('login') }}" class="create-quiz-btn">Create a quiz</a>
+      </div>
+
+      <div class="image-section">
+        <div class="quiz-mockup">
+          <img
+            src="{{ url_for('static', filename='welcome.png') }}" 
+            alt="Quiz app on desktop"
+            class="desktop-frame"
+          />
+        </div>
+
+          <div class="shapes">
+            <div class="shape-1"></div>
+            <div class="shape-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

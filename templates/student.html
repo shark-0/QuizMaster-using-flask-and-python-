@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Dashboard - Quiz App</title>
+    <style>
+      /* --- Global Styles --- */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
+      :root {
+        --light-blue: #e3f2fd;
+        --dusky-blue: #2a3d54;
+        --accent-green: #4caf50;
+        --accent-orange: #ff9800;
+        --primary-text: #2c3e50;
+        --secondary-text: #7f8c8d;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light-blue);
+        color: var(--primary-text);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* --- Navigation Bar --- */
+      .navbar {
+        background-color: #ffffff;
+        padding: 15px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dusky-blue);
+      }
+
+      .navbar .nav-links a {
+        color: var(--secondary-text);
+        text-decoration: none;
+        margin-left: 30px;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .navbar .nav-links a:hover {
+        color: var(--accent-green);
+      }
+
+      .navbar .nav-links .logout-btn {
+        background-color: var(--accent-green);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+      }
+
+      .navbar .nav-links .logout-btn:hover {
+        background-color: #388e3c;
+      }
+
+      /* --- Main Dashboard Container --- */
+      .dashboard-container {
+        flex: 1;
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+      }
+
+      /* --- Card Styles --- */
+      .card {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--dusky-blue);
+        margin-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
+      }
+
+      /* --- Quiz Code Section --- */
+      .quiz-code-section form {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .quiz-code-section input[type="text"] {
+        flex: 1;
+        padding: 15px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        color: var(--primary-text);
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .quiz-code-section input[type="text"]:focus {
+        border-color: var(--accent-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+      }
+
+      .start-quiz-btn {
+        padding: 15px 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        background-color: var(--accent-green);
+        color: #ffffff;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+
+      .start-quiz-btn:hover {
+        transform: translateY(-3px);
+        background-color: #388e3c;
+      }
+
+      /* --- Profile Section --- */
+      .profile-section p {
+        font-size: 1rem;
+        color: var(--secondary-text);
+        margin-bottom: 10px;
+      }
+
+      .profile-section p strong {
+        color: var(--primary-text);
+      }
+
+      .update-profile-btn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: 2px solid var(--dusky-blue);
+        border-radius: 10px;
+        background-color: transparent;
+        color: var(--dusky-blue);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .update-profile-btn:hover {
+        background-color: var(--dusky-blue);
+        color: #ffffff;
+      }
+
+      /* --- Recent Quizzes Section --- */
+      .quiz-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      .quiz-table th,
+      .quiz-table td {
+        padding: 15px;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .quiz-table th {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--secondary-text);
+      }
+
+      .quiz-table td {
+        font-size: 1rem;
+        color: var(--primary-text);
+      }
+
+      .quiz-table tr:hover {
+        background-color: #f9f9f9;
+      }
+
+      /* --- Animations --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* --- Media Queries --- */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 15px 20px;
+        }
+        .dashboard-container {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .quiz-code-section form {
+          flex-direction: column;
+          gap: 10px;
+        }
+        .start-quiz-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top menu bar -->
+    <div class="navbar">
+      <div class="logo">QuizMaster</div>
+      <div class="nav-links">
+        <a href="#">Dashboard</a>
+        <a href="#">Quizzes</a>
+        <a href="#">Results</a>
+        <a href="#">Profile</a>
+        <a href="/logout" class="logout-btn">Logout</a>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Container -->
+    <div class="dashboard-container">
+      <!-- Main Content Area -->
+      <div class="main-content-area">
+        <div class="card quiz-code-section">
+          <h3>Enter Quiz Code</h3>
+          <form method="post">
+            <input
+              type="text"
+              name="quiz_code"
+              placeholder="Enter code here..."
+              required
+            />
+            <button type="submit" class="start-quiz-btn">Start Quiz</button>
+          </form>
+        </div>
+
+        <div class="card recent-quizzes-section" style="margin-top: 40px">
+          <h3>Recent Quizzes</h3>
+          <table class="quiz-table">
+            <thead>
+              <tr>
+                <th>Quiz Title</th>
+                <th>Score</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Example rows -->
+              <tr>
+                <td>History of the World</td>
+                <td>8/10</td>
+                <td>Completed</td>
+              </tr>
+              <tr>
+                <td>Introduction to Physics</td>
+                <td>-</td>
+                <td>In Progress</td>
+              </tr>
+              <tr>
+                <td>Algebra Basics</td>
+                <td>9/10</td>
+                <td>Completed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="card profile-section">
+          <h3>Profile</h3>
+          <p><strong>Name:</strong> {{ student_name }}</p>
+          <p><strong>Email:</strong> {{ student_email }}</p>
+          <button class="update-profile-btn">Update Profile</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

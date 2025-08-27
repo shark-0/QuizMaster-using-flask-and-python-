@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Quiz Question</title>
+    <style>
+      /* --- Global Styles --- */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
+      :root {
+        --light-blue: #e3f2fd;
+        --dusky-blue: #2a3d54;
+        --accent-green: #4caf50;
+        --accent-orange: #ff9800;
+        --primary-text: #2c3e50;
+        --secondary-text: #7f8c8d;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light-blue);
+        color: var(--primary-text);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* --- Container --- */
+      .quiz-container {
+        position: relative;
+        z-index: 1;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        width: 100%;
+        text-align: center;
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      .quiz-container:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+      }
+
+      .quiz-container h2 {
+        margin-bottom: 25px;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--dusky-blue);
+      }
+
+      /* --- Form Grid Layout --- */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .full-width {
+        grid-column: span 2;
+      }
+
+      /* --- Input Fields & Textarea --- */
+      .input-group {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        text-align: left;
+        font-weight: 600;
+        color: var(--primary-text);
+        margin-bottom: 8px;
+      }
+
+      .input-group input,
+      .input-group select,
+      .input-group textarea {
+        width: 90%;
+        padding: 15px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        color: var(--primary-text);
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .input-group input:focus,
+      .input-group textarea:focus,
+      .input-group select:focus {
+        border-color: var(--accent-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+      }
+
+      /* --- Submit Button --- */
+      .quiz-container button {
+        width: 100%;
+        padding: 15px;
+        margin-top: 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 50px;
+        background-color: var(--dusky-blue);
+        color: #ffffff;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease,
+          box-shadow 0.3s ease;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .quiz-container button:hover {
+        transform: translateY(-3px);
+        background-color: #1a2736;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* --- Animations --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* --- Media Queries --- */
+      @media (max-width: 600px) {
+        .quiz-container {
+          padding: 30px;
+          margin: 20px;
+        }
+        .quiz-container h2 {
+          font-size: 1.8rem;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .quiz-container button {
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <h2>Create Quiz Question</h2>
+      <form method="POST">
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="id">Question Number</label>
+            <input
+              type="number"
+              id="id"
+              name="id"
+              placeholder="e.g., 1"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="mark">Marks</label>
+            <input
+              type="number"
+              id="mark"
+              name="mark"
+              placeholder="e.g., 10"
+              required
+            />
+          </div>
+          <div class="input-group full-width">
+            <label for="question">Question</label>
+            <textarea
+              id="question"
+              name="question"
+              rows="4"
+              placeholder="Enter your question here..."
+              required
+            ></textarea>
+          </div>
+          <div class="input-group full-width">
+            <label for="correct_option">Correct Option</label>
+            <input
+              type="text"
+              id="correct_option"
+              name="correct_option"
+              placeholder="Enter the correct option here..."
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="option1">Option 1</label>
+            <input
+              type="text"
+              id="option1"
+              name="option1"
+              placeholder="Option 1"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="option2">Option 2</label>
+            <input
+              type="text"
+              id="option2"
+              name="option2"
+              placeholder="Option 2"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="option3">Option 3</label>
+            <input
+              type="text"
+              id="option3"
+              name="option3"
+              placeholder="Option 3"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="option4">Option 4</label>
+            <input
+              type="text"
+              id="option4"
+              name="option4"
+              placeholder="Option 4"
+              required
+            />
+          </div>
+        </div>
+
+        <button type="submit">Save Question</button>
+      </form>
+    </div>
+  </body>
+</html>

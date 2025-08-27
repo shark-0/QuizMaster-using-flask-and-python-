@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App Login</title>
+    <style>
+      /* --- Global Styles --- */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
+      :root {
+        --light-blue: #e3f2fd;
+        --dusky-blue: #2a3d54;
+        --accent-green: #4caf50;
+        --accent-orange: #ff9800;
+        --primary-text: #2c3e50;
+        --secondary-text: #7f8c8d;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light-blue);
+        color: var(--primary-text);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* --- Login Container --- */
+      .login-container {
+        position: relative;
+        z-index: 1;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        max-width: 450px;
+        width: 100%;
+        text-align: center;
+        animation: fadeIn 0.6s ease-out;
+        transition: transform 0.3s ease;
+      }
+
+      .login-container:hover {
+        transform: translateY(-5px);
+      }
+
+      .login-header {
+        margin-bottom: 30px;
+      }
+
+      .login-header .logo {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--dusky-blue);
+        margin-bottom: 10px;
+      }
+
+      .login-header .welcome-text {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-text);
+      }
+
+      .login-header .subtitle {
+        font-size: 0.9rem;
+        color: var(--secondary-text);
+        margin-top: 5px;
+      }
+
+      /* --- Social Login Buttons --- */
+      .social-login-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 20px;
+        border: 1px solid #ddd;
+        border-radius: 50px;
+        background-color: #f8f9fa;
+        text-decoration: none;
+        color: var(--primary-text);
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .social-btn:hover {
+        background-color: #f1f3f4;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .social-btn i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 25px 0;
+        color: var(--secondary-text);
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e0e0e0;
+      }
+
+      .divider:not(:empty)::before {
+        margin-right: 0.5em;
+      }
+
+      .divider:not(:empty)::after {
+        margin-left: 0.5em;
+      }
+
+      /* --- Input Fields --- */
+      .input-group {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        text-align: left;
+        font-weight: 600;
+        color: var(--primary-text);
+        margin-bottom: 8px;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 15px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        color: var(--primary-text);
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .input-group input:focus {
+        border-color: var(--accent-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 80%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--secondary-text);
+        transition: color 0.3s ease;
+      }
+
+      .password-toggle:hover {
+        color: var(--primary-text);
+      }
+
+      /* --- Main Login Button --- */
+      .login-btn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 50px;
+        background-color: var(--dusky-blue);
+        color: #ffffff;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease,
+          box-shadow 0.3s ease;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .login-btn:hover {
+        transform: translateY(-3px);
+        background-color: #1a2736;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* --- Links --- */
+      .login-links {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: var(--secondary-text);
+      }
+
+      .login-links a {
+        color: var(--secondary-text);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .login-links a:hover {
+        color: var(--accent-green);
+        text-decoration: underline;
+      }
+
+      /* --- Animations --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* --- Media Queries --- */
+      @media (max-width: 600px) {
+        .login-container {
+          padding: 30px;
+          margin: 20px;
+        }
+
+        .login-header .welcome-text {
+          font-size: 1.2rem;
+        }
+
+        .social-btn {
+          padding: 10px 15px;
+        }
+
+        .login-btn {
+          font-size: 1rem;
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-header">
+        <div class="logo">QuizMaster</div>
+        <p class="welcome-text">Welcome back!</p>
+        <p class="subtitle">Log in to your QuizMaster account</p>
+      </div>
+
+      <form method="POST">
+        <div class="input-group">
+          <label>User Name</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username or Email"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="password">Your password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <span class="password-toggle" onclick="togglePasswordVisibility()">
+            <i class="fa fa-eye-slash" id="togglePassword"></i>
+          </span>
+        </div>
+
+        <button type="submit" class="login-btn">Log in</button>
+      </form>
+
+      <div class="login-links">
+        <a href="#">Forgot password?</a>
+        <a href="{{ url_for('register_page') }}">Create an account</a>
+      </div>
+    </div>
+
+    <script>
+      function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("password");
+        const toggleIcon = document.getElementById("togglePassword");
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleIcon.classList.remove("fa-eye-slash");
+          toggleIcon.classList.add("fa-eye");
+        } else {
+          passwordInput.type = "password";
+          toggleIcon.classList.remove("fa-eye");
+          toggleIcon.classList.add("fa-eye-slash");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App Register</title>
+    <style>
+      /* --- Global Styles --- */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+
+      :root {
+        --light-blue: #e3f2fd;
+        --dusky-blue: #2a3d54;
+        --accent-green: #4caf50;
+        --accent-orange: #ff9800;
+        --primary-text: #2c3e50;
+        --secondary-text: #7f8c8d;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: var(--light-blue);
+        color: var(--primary-text);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* --- Register Container --- */
+      .register-container {
+        position: relative;
+        z-index: 1;
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        animation: fadeIn 0.6s ease-out;
+        transition: transform 0.3s ease;
+      }
+
+      .register-container:hover {
+        transform: translateY(-5px);
+      }
+
+      .register-header {
+        margin-bottom: 30px;
+      }
+
+      .register-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--dusky-blue);
+      }
+
+      .register-header .subtitle {
+        font-size: 0.9rem;
+        color: var(--secondary-text);
+        margin-top: 5px;
+      }
+
+      .social-login-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 20px;
+        border: 1px solid #ddd;
+        border-radius: 50px;
+        background-color: #f8f9fa;
+        text-decoration: none;
+        color: var(--primary-text);
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .social-btn:hover {
+        background-color: #f1f3f4;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .social-btn i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 25px 0;
+        color: var(--secondary-text);
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e0e0e0;
+      }
+
+      .divider:not(:empty)::before {
+        margin-right: 0.5em;
+      }
+
+      .divider:not(:empty)::after {
+        margin-left: 0.5em;
+      }
+
+      /* --- Form Grid Layout --- */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .full-width {
+        grid-column: span 2;
+      }
+
+      /* --- Input Fields & Select --- */
+      .input-group {
+        position: relative;
+        margin-bottom: 0px;
+      }
+
+      .input-group label {
+        display: block;
+        text-align: left;
+        font-weight: 600;
+        color: var(--primary-text);
+        margin-bottom: 8px;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 90%;
+        padding: 15px 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        color: var(--primary-text);
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .input-group input:focus,
+      .input-group select:focus {
+        border-color: var(--accent-green);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        outline: none;
+      }
+
+      .input-group select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="rgb(127, 140, 141)" d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+      }
+
+      /* --- Role Selection --- */
+      .role-selection {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .role-selection p {
+        font-weight: 600;
+        color: var(--primary-text);
+        margin-bottom: 10px;
+      }
+
+      .role-container {
+        display: flex;
+        gap: 15px;
+      }
+
+      .role-option {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .role-option:hover {
+        border-color: var(--accent-green);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .role-option input[type="radio"] {
+        display: none;
+      }
+
+      .role-option .role-text {
+        font-weight: 600;
+        color: var(--secondary-text);
+        transition: color 0.3s ease;
+      }
+
+      .role-option input[type="radio"]:checked + .role-icon-label .role-text {
+        color: var(--primary-text);
+      }
+
+      .role-icon-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .role-icon {
+        font-size: 2.5rem;
+        color: var(--secondary-text);
+        margin-bottom: 10px;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      .role-option input[type="radio"]:checked + .role-icon-label .role-icon {
+        color: var(--accent-green);
+        transform: scale(1.1);
+      }
+
+      /* --- Submit Button --- */
+      .register-btn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 10px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 50px;
+        background-color: var(--dusky-blue);
+        color: #ffffff;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease,
+          box-shadow 0.3s ease;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .register-btn:hover {
+        transform: translateY(-3px);
+        background-color: #1a2736;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .login-link {
+        margin-top: 20px;
+        font-size: 0.9rem;
+        color: var(--secondary-text);
+      }
+
+      .login-link a {
+        color: var(--accent-green);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      /* --- Animations --- */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* --- Media Queries --- */
+      @media (max-width: 600px) {
+        .register-container {
+          padding: 30px;
+          margin: 20px;
+        }
+
+        .register-header h2 {
+          font-size: 2rem;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-container">
+      <div class="register-header">
+        <h2>Create an Account</h2>
+      </div>
+
+      <form action="{{ url_for('register_page') }}" method="POST">
+        <div class="role-selection">
+          <p>Are you a student or a teacher?</p>
+          <div class="role-container">
+            <div class="role-option">
+              <input
+                type="radio"
+                id="student-role"
+                name="role"
+                value="Student"
+                required
+              />
+              <label for="student-role" class="role-icon-label">
+                <i class="fas fa-user-graduate role-icon"></i>
+                <span class="role-text">Student</span>
+              </label>
+            </div>
+            <div class="role-option">
+              <input
+                type="radio"
+                id="teacher-role"
+                name="role"
+                value="Teacher"
+                required
+              />
+              <label for="teacher-role" class="role-icon-label">
+                <i class="fas fa-chalkboard-teacher role-icon"></i>
+                <span class="role-text">Teacher</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div class="input-group full-width">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Create a password"
+              required
+            />
+          </div>
+          <div class="input-group full-width">
+            <label for="confirm_password">Confirm Password</label>
+            <input
+              type="password"
+              id="confirm_password"
+              name="confirm_password"
+              placeholder="Confirm your password"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="age">Age</label>
+            <input
+              type="number"
+              id="age"
+              name="age"
+              placeholder="Your age"
+              min="1"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+              <option value="" disabled selected>Select your gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="input-group full-width">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required />
+          </div>
+        </div>
+
+        <button type="submit" class="register-btn">Create Account</button>
+      </form>
+
+      <div class="login-link">
+        Already have an account?
+        <a href="{{ url_for('login') }}">Log in here</a>
+      </div>
+    </div>
+  </body>
+</html>
